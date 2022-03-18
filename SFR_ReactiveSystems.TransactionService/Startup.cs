@@ -11,7 +11,11 @@ namespace SFR_ReactiveSystems.TransactionService
     {
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            while(true)
+            {
+                Thread.Sleep(10000);
+                Console.WriteLine("Tick");
+            }
         }
     }
 }

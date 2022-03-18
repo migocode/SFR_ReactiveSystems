@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SFR_ReactiveSystems.TransactionService": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+version: '3.6'
+
+#services:
+#  sfr_reactivesystems.frontend.server:
+#    image: ${DOCKER_REGISTRY-}sfrreactivesystemsfrontendserver
+#    build:
+#      context: .
+#      dockerfile: SFR_ReactiveSystems.Frontend/Server/Dockerfile
+
+#  sfr_reactivesystems.transactionservice:
+#    image: ${DOCKER_REGISTRY-}sfrreactivesystemstransactionservice
+#    build:
+#      context: .
+#      dockerfile: SFR_ReactiveSystems.TransactionService/Dockerfile
+
