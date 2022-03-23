@@ -1,0 +1,557 @@
+﻿schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"Boolean expression to compare columns of type \"Float\". All fields are combined with logical 'AND'."
+input Float_comparison_exp {
+  _eq: Float
+  _gt: Float
+  _gte: Float
+  _in: [Float!]
+  _is_null: Boolean
+  _lt: Float
+  _lte: Float
+  _neq: Float
+  _nin: [Float!]
+}
+
+"Boolean expression to compare columns of type \"Int\". All fields are combined with logical 'AND'."
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"columns and relationships of \"Payments\""
+type Payments {
+  amount: Float!
+  createdAt: timestamptz
+  creditorIBAN: String!
+  debitorIBAN: String!
+  description: String!
+  id: Int!
+}
+
+"aggregated selection of \"Payments\""
+type Payments_aggregate {
+  aggregate: Payments_aggregate_fields
+  nodes: [Payments!]!
+}
+
+"aggregate fields of \"Payments\""
+type Payments_aggregate_fields {
+  avg: Payments_avg_fields
+  count(columns: [Payments_select_column!] distinct: Boolean): Int!
+  max: Payments_max_fields
+  min: Payments_min_fields
+  stddev: Payments_stddev_fields
+  stddev_pop: Payments_stddev_pop_fields
+  stddev_samp: Payments_stddev_samp_fields
+  sum: Payments_sum_fields
+  var_pop: Payments_var_pop_fields
+  var_samp: Payments_var_samp_fields
+  variance: Payments_variance_fields
+}
+
+"aggregate avg on columns"
+type Payments_avg_fields {
+  amount: Float
+  id: Float
+}
+
+"Boolean expression to filter rows from the table \"Payments\". All fields are combined with a logical 'AND'."
+input Payments_bool_exp {
+  _and: [Payments_bool_exp!]
+  _not: Payments_bool_exp
+  _or: [Payments_bool_exp!]
+  amount: Float_comparison_exp
+  createdAt: timestamptz_comparison_exp
+  creditorIBAN: String_comparison_exp
+  debitorIBAN: String_comparison_exp
+  description: String_comparison_exp
+  id: Int_comparison_exp
+}
+
+"unique or primary key constraints on table \"Payments\""
+enum Payments_constraint {
+  "unique or primary key constraint"
+  Payments_pkey
+}
+
+"input type for incrementing numeric columns in table \"Payments\""
+input Payments_inc_input {
+  amount: Float
+  id: Int
+}
+
+"input type for inserting data into table \"Payments\""
+input Payments_insert_input {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  description: String
+  id: Int
+}
+
+"aggregate max on columns"
+type Payments_max_fields {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  description: String
+  id: Int
+}
+
+"aggregate min on columns"
+type Payments_min_fields {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  description: String
+  id: Int
+}
+
+"response of any mutation on the table \"Payments\""
+type Payments_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [Payments!]!
+}
+
+"on_conflict condition type for table \"Payments\""
+input Payments_on_conflict {
+  constraint: Payments_constraint!
+  update_columns: [Payments_update_column!]! = [  ]
+  where: Payments_bool_exp
+}
+
+"Ordering options when selecting data from \"Payments\"."
+input Payments_order_by {
+  amount: order_by
+  createdAt: order_by
+  creditorIBAN: order_by
+  debitorIBAN: order_by
+  description: order_by
+  id: order_by
+}
+
+"primary key columns input for table: Payments"
+input Payments_pk_columns_input {
+  id: Int!
+}
+
+"select columns of table \"Payments\""
+enum Payments_select_column {
+  "column name"
+  amount
+  "column name"
+  createdAt
+  "column name"
+  creditorIBAN
+  "column name"
+  debitorIBAN
+  "column name"
+  description
+  "column name"
+  id
+}
+
+"input type for updating data in table \"Payments\""
+input Payments_set_input {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  description: String
+  id: Int
+}
+
+"aggregate stddev on columns"
+type Payments_stddev_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate stddev_pop on columns"
+type Payments_stddev_pop_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate stddev_samp on columns"
+type Payments_stddev_samp_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate sum on columns"
+type Payments_sum_fields {
+  amount: Float
+  id: Int
+}
+
+"update columns of table \"Payments\""
+enum Payments_update_column {
+  "column name"
+  amount
+  "column name"
+  createdAt
+  "column name"
+  creditorIBAN
+  "column name"
+  debitorIBAN
+  "column name"
+  description
+  "column name"
+  id
+}
+
+"aggregate var_pop on columns"
+type Payments_var_pop_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate var_samp on columns"
+type Payments_var_samp_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate variance on columns"
+type Payments_variance_fields {
+  amount: Float
+  id: Float
+}
+
+"Boolean expression to compare columns of type \"String\". All fields are combined with logical 'AND'."
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  "does the column match the given case-insensitive pattern"
+  _ilike: String
+  _in: [String!]
+  "does the column match the given POSIX regular expression, case insensitive"
+  _iregex: String
+  _is_null: Boolean
+  "does the column match the given pattern"
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  "does the column NOT match the given case-insensitive pattern"
+  _nilike: String
+  _nin: [String!]
+  "does the column NOT match the given POSIX regular expression, case insensitive"
+  _niregex: String
+  "does the column NOT match the given pattern"
+  _nlike: String
+  "does the column NOT match the given POSIX regular expression, case sensitive"
+  _nregex: String
+  "does the column NOT match the given SQL regular expression"
+  _nsimilar: String
+  "does the column match the given POSIX regular expression, case sensitive"
+  _regex: String
+  "does the column match the given SQL regular expression"
+  _similar: String
+}
+
+"columns and relationships of \"Transactions\""
+type Transactions {
+  amount: Float!
+  createdAt: timestamptz
+  creditorIBAN: String!
+  debitorIBAN: String!
+  id: Int!
+}
+
+"aggregated selection of \"Transactions\""
+type Transactions_aggregate {
+  aggregate: Transactions_aggregate_fields
+  nodes: [Transactions!]!
+}
+
+"aggregate fields of \"Transactions\""
+type Transactions_aggregate_fields {
+  avg: Transactions_avg_fields
+  count(columns: [Transactions_select_column!] distinct: Boolean): Int!
+  max: Transactions_max_fields
+  min: Transactions_min_fields
+  stddev: Transactions_stddev_fields
+  stddev_pop: Transactions_stddev_pop_fields
+  stddev_samp: Transactions_stddev_samp_fields
+  sum: Transactions_sum_fields
+  var_pop: Transactions_var_pop_fields
+  var_samp: Transactions_var_samp_fields
+  variance: Transactions_variance_fields
+}
+
+"aggregate avg on columns"
+type Transactions_avg_fields {
+  amount: Float
+  id: Float
+}
+
+"Boolean expression to filter rows from the table \"Transactions\". All fields are combined with a logical 'AND'."
+input Transactions_bool_exp {
+  _and: [Transactions_bool_exp!]
+  _not: Transactions_bool_exp
+  _or: [Transactions_bool_exp!]
+  amount: Float_comparison_exp
+  createdAt: timestamptz_comparison_exp
+  creditorIBAN: String_comparison_exp
+  debitorIBAN: String_comparison_exp
+  id: Int_comparison_exp
+}
+
+"unique or primary key constraints on table \"Transactions\""
+enum Transactions_constraint {
+  "unique or primary key constraint"
+  Transactions_pkey
+}
+
+"input type for incrementing numeric columns in table \"Transactions\""
+input Transactions_inc_input {
+  amount: Float
+  id: Int
+}
+
+"input type for inserting data into table \"Transactions\""
+input Transactions_insert_input {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  id: Int
+}
+
+"aggregate max on columns"
+type Transactions_max_fields {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  id: Int
+}
+
+"aggregate min on columns"
+type Transactions_min_fields {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  id: Int
+}
+
+"response of any mutation on the table \"Transactions\""
+type Transactions_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [Transactions!]!
+}
+
+"on_conflict condition type for table \"Transactions\""
+input Transactions_on_conflict {
+  constraint: Transactions_constraint!
+  update_columns: [Transactions_update_column!]! = [  ]
+  where: Transactions_bool_exp
+}
+
+"Ordering options when selecting data from \"Transactions\"."
+input Transactions_order_by {
+  amount: order_by
+  createdAt: order_by
+  creditorIBAN: order_by
+  debitorIBAN: order_by
+  id: order_by
+}
+
+"primary key columns input for table: Transactions"
+input Transactions_pk_columns_input {
+  id: Int!
+}
+
+"select columns of table \"Transactions\""
+enum Transactions_select_column {
+  "column name"
+  amount
+  "column name"
+  createdAt
+  "column name"
+  creditorIBAN
+  "column name"
+  debitorIBAN
+  "column name"
+  id
+}
+
+"input type for updating data in table \"Transactions\""
+input Transactions_set_input {
+  amount: Float
+  createdAt: timestamptz
+  creditorIBAN: String
+  debitorIBAN: String
+  id: Int
+}
+
+"aggregate stddev on columns"
+type Transactions_stddev_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate stddev_pop on columns"
+type Transactions_stddev_pop_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate stddev_samp on columns"
+type Transactions_stddev_samp_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate sum on columns"
+type Transactions_sum_fields {
+  amount: Float
+  id: Int
+}
+
+"update columns of table \"Transactions\""
+enum Transactions_update_column {
+  "column name"
+  amount
+  "column name"
+  createdAt
+  "column name"
+  creditorIBAN
+  "column name"
+  debitorIBAN
+  "column name"
+  id
+}
+
+"aggregate var_pop on columns"
+type Transactions_var_pop_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate var_samp on columns"
+type Transactions_var_samp_fields {
+  amount: Float
+  id: Float
+}
+
+"aggregate variance on columns"
+type Transactions_variance_fields {
+  amount: Float
+  id: Float
+}
+
+"mutation root"
+type mutation_root {
+  "delete data from the table: \"Payments\""
+  delete_Payments("filter the rows which have to be deleted" where: Payments_bool_exp!): Payments_mutation_response
+  "delete single row from the table: \"Payments\""
+  delete_Payments_by_pk(id: Int!): Payments
+  "delete data from the table: \"Transactions\""
+  delete_Transactions("filter the rows which have to be deleted" where: Transactions_bool_exp!): Transactions_mutation_response
+  "delete single row from the table: \"Transactions\""
+  delete_Transactions_by_pk(id: Int!): Transactions
+  "insert data into the table: \"Payments\""
+  insert_Payments("the rows to be inserted" objects: [Payments_insert_input!]! "upsert condition" on_conflict: Payments_on_conflict): Payments_mutation_response
+  "insert a single row into the table: \"Payments\""
+  insert_Payments_one("the row to be inserted" object: Payments_insert_input! "upsert condition" on_conflict: Payments_on_conflict): Payments
+  "insert data into the table: \"Transactions\""
+  insert_Transactions("the rows to be inserted" objects: [Transactions_insert_input!]! "upsert condition" on_conflict: Transactions_on_conflict): Transactions_mutation_response
+  "insert a single row into the table: \"Transactions\""
+  insert_Transactions_one("the row to be inserted" object: Transactions_insert_input! "upsert condition" on_conflict: Transactions_on_conflict): Transactions
+  "update data of the table: \"Payments\""
+  update_Payments("increments the numeric columns with given value of the filtered values" _inc: Payments_inc_input "sets the columns of the filtered rows to the given values" _set: Payments_set_input "filter the rows which have to be updated" where: Payments_bool_exp!): Payments_mutation_response
+  "update single row of the table: \"Payments\""
+  update_Payments_by_pk("increments the numeric columns with given value of the filtered values" _inc: Payments_inc_input "sets the columns of the filtered rows to the given values" _set: Payments_set_input pk_columns: Payments_pk_columns_input!): Payments
+  "update data of the table: \"Transactions\""
+  update_Transactions("increments the numeric columns with given value of the filtered values" _inc: Transactions_inc_input "sets the columns of the filtered rows to the given values" _set: Transactions_set_input "filter the rows which have to be updated" where: Transactions_bool_exp!): Transactions_mutation_response
+  "update single row of the table: \"Transactions\""
+  update_Transactions_by_pk("increments the numeric columns with given value of the filtered values" _inc: Transactions_inc_input "sets the columns of the filtered rows to the given values" _set: Transactions_set_input pk_columns: Transactions_pk_columns_input!): Transactions
+}
+
+"column ordering options"
+enum order_by {
+  "in ascending order, nulls last"
+  asc
+  "in ascending order, nulls first"
+  asc_nulls_first
+  "in ascending order, nulls last"
+  asc_nulls_last
+  "in descending order, nulls first"
+  desc
+  "in descending order, nulls first"
+  desc_nulls_first
+  "in descending order, nulls last"
+  desc_nulls_last
+}
+
+type query_root {
+  "fetch data from the table: \"Payments\""
+  Payments("distinct select on columns" distinct_on: [Payments_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Payments_order_by!] "filter the rows returned" where: Payments_bool_exp): [Payments!]!
+  "fetch aggregated fields from the table: \"Payments\""
+  Payments_aggregate("distinct select on columns" distinct_on: [Payments_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Payments_order_by!] "filter the rows returned" where: Payments_bool_exp): Payments_aggregate!
+  "fetch data from the table: \"Payments\" using primary key columns"
+  Payments_by_pk(id: Int!): Payments
+  "fetch data from the table: \"Transactions\""
+  Transactions("distinct select on columns" distinct_on: [Transactions_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Transactions_order_by!] "filter the rows returned" where: Transactions_bool_exp): [Transactions!]!
+  "fetch aggregated fields from the table: \"Transactions\""
+  Transactions_aggregate("distinct select on columns" distinct_on: [Transactions_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Transactions_order_by!] "filter the rows returned" where: Transactions_bool_exp): Transactions_aggregate!
+  "fetch data from the table: \"Transactions\" using primary key columns"
+  Transactions_by_pk(id: Int!): Transactions
+}
+
+type subscription_root {
+  "fetch data from the table: \"Payments\""
+  Payments("distinct select on columns" distinct_on: [Payments_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Payments_order_by!] "filter the rows returned" where: Payments_bool_exp): [Payments!]!
+  "fetch aggregated fields from the table: \"Payments\""
+  Payments_aggregate("distinct select on columns" distinct_on: [Payments_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Payments_order_by!] "filter the rows returned" where: Payments_bool_exp): Payments_aggregate!
+  "fetch data from the table: \"Payments\" using primary key columns"
+  Payments_by_pk(id: Int!): Payments
+  "fetch data from the table: \"Transactions\""
+  Transactions("distinct select on columns" distinct_on: [Transactions_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Transactions_order_by!] "filter the rows returned" where: Transactions_bool_exp): [Transactions!]!
+  "fetch aggregated fields from the table: \"Transactions\""
+  Transactions_aggregate("distinct select on columns" distinct_on: [Transactions_select_column!] "limit the number of rows returned" limit: Int "skip the first n rows. Use only with order_by" offset: Int "sort the rows by one or more columns" order_by: [Transactions_order_by!] "filter the rows returned" where: Transactions_bool_exp): Transactions_aggregate!
+  "fetch data from the table: \"Transactions\" using primary key columns"
+  Transactions_by_pk(id: Int!): Transactions
+}
+
+scalar timestamptz
+
+"Boolean expression to compare columns of type \"timestamptz\". All fields are combined with logical 'AND'."
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"whether this query should be cached (Hasura Cloud only)"
+directive @cached("measured in seconds" ttl: Int! = 60 "refresh the cache entry" refresh: Boolean! = false) on QUERY

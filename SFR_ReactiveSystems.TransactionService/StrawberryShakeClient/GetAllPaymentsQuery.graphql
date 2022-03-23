@@ -1,0 +1,10 @@
+﻿query GetAllPayments {
+	Payments {
+        debitorIBAN
+        creditorIBAN
+        description
+        amount
+        createdAt
+        id
+	}
+}

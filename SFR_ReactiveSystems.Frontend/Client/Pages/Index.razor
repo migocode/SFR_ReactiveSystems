@@ -1,9 +1,96 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@using SFR_ReactiveSystems.Frontend.Client.GraphQL
 
-<h1>Hello, world!</h1>
+@inject GraphQLClient client
 
-Welcome to your new app.
+<PageTitle>Payments & Transactions</PageTitle>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h2>Your IBAN: @myIban</h2>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="row gy-5 gx-5">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h3>New Payment</h3>
+                    <EditForm Model="@payment" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <div class="form-group">
+                            <label for="CreditorIBAN">Creditor IBAN</label>
+                            <input type="text" @bind="payment.CreditorIBAN" class="form-control" id="CreditorIBAN" placeholder="Enter recipients IBAN">
+                            <small id="emailHelp" class="form-text text-muted">IBAN of the recipient of the moneytransfer.</small>
+                        </div>
+                        <br />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" step=".01" @bind="payment.Amount" class="form-control" aria-label="Amount">
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <input type="text" @bind="payment.Description" class="form-control" id="Description">
+                        </div>
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Create Payment</button>
+                        <br />
+                        <br />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Payment Id</span>
+                            <input type="text" @bind="paymentId" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Payments</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Row in Grid -->
+
+    <div class="row gy-5 gx-5">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Transactions</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private const string myIban = "1234567890";
+    private string paymentId = "";
+
+    private Payment payment = new();
+
+    protected override void OnParametersSet()
+    {
+        payment.DebitorIBAN = myIban;
+
+        base.OnParametersSet();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Console.WriteLine("Submit clicked!");
+        int paymentIdInt = await client.SendAsync(payment);
+        paymentId = paymentIdInt.ToString();
+    }
+}

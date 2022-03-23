@@ -9,8 +9,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GraphQLSchema\**" />
+    <EmbeddedResource Remove="GraphQLSchema\**" />
+    <GraphQL Remove="GraphQLSchema\**" />
+    <GraphQLConfig Remove="GraphQLSchema\**" />
+    <None Remove="GraphQLSchema\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <GraphQL Remove="GetAllPaymentsQuery.graphql" />
+    <GraphQL Remove="GraphQLQueries\GetAllPaymentsQuery.graphql" />
+    <GraphQL Remove="StrawberryShakeClient\PaymentSubscription.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="StrawberryShakeClient\PaymentSubscription.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="StrawberryShakeClient\PaymentSubscription.graphql">
+      <GraphQL>true</GraphQL>
+    </AdditionalFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GraphQL.Client" Version="4.0.2" />
+    <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="4.0.2" />
+    <PackageReference Include="GraphQL.Primitives" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="12.7.0" />
+    <PackageReference Include="StrawberryShake.Transport.Http" Version="12.7.0" />
+    <PackageReference Include="StrawberryShake.Transport.WebSockets" Version="12.7.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
