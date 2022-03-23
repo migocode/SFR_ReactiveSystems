@@ -176,22 +176,25 @@ namespace SFR_ReactiveSystems.TransactionService
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial class OnNewPayment_Payments_Payments : global::System.IEquatable<OnNewPayment_Payments_Payments>, IOnNewPayment_Payments_Payments
     {
-        public OnNewPayment_Payments_Payments(global::System.String debitorIBAN, global::System.String creditorIBAN, global::System.Double amount, global::System.String? createdAt, global::System.Int32 id)
+        public OnNewPayment_Payments_Payments(global::System.Double amount, global::System.String? createdAt, global::System.String creditorIBAN, global::System.String debitorIBAN, global::System.String description, global::System.Int32 id)
         {
-            DebitorIBAN = debitorIBAN;
-            CreditorIBAN = creditorIBAN;
             Amount = amount;
             CreatedAt = createdAt;
+            CreditorIBAN = creditorIBAN;
+            DebitorIBAN = debitorIBAN;
+            Description = description;
             Id = id;
         }
-
-        public global::System.String DebitorIBAN { get; }
-
-        public global::System.String CreditorIBAN { get; }
 
         public global::System.Double Amount { get; }
 
         public global::System.String? CreatedAt { get; }
+
+        public global::System.String CreditorIBAN { get; }
+
+        public global::System.String DebitorIBAN { get; }
+
+        public global::System.String Description { get; }
 
         public global::System.Int32 Id { get; }
 
@@ -212,7 +215,7 @@ namespace SFR_ReactiveSystems.TransactionService
                 return false;
             }
 
-            return (DebitorIBAN.Equals(other.DebitorIBAN)) && CreditorIBAN.Equals(other.CreditorIBAN) && Amount == other.Amount && ((CreatedAt is null && other.CreatedAt is null) || CreatedAt != null && CreatedAt.Equals(other.CreatedAt)) && Id == other.Id;
+            return (Amount == other.Amount) && ((CreatedAt is null && other.CreatedAt is null) || CreatedAt != null && CreatedAt.Equals(other.CreatedAt)) && CreditorIBAN.Equals(other.CreditorIBAN) && DebitorIBAN.Equals(other.DebitorIBAN) && Description.Equals(other.Description) && Id == other.Id;
         }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
@@ -240,14 +243,15 @@ namespace SFR_ReactiveSystems.TransactionService
             unchecked
             {
                 int hash = 5;
-                hash ^= 397 * DebitorIBAN.GetHashCode();
-                hash ^= 397 * CreditorIBAN.GetHashCode();
                 hash ^= 397 * Amount.GetHashCode();
                 if (CreatedAt != null)
                 {
                     hash ^= 397 * CreatedAt.GetHashCode();
                 }
 
+                hash ^= 397 * CreditorIBAN.GetHashCode();
+                hash ^= 397 * DebitorIBAN.GetHashCode();
+                hash ^= 397 * Description.GetHashCode();
                 hash ^= 397 * Id.GetHashCode();
                 return hash;
             }
@@ -269,13 +273,15 @@ namespace SFR_ReactiveSystems.TransactionService
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial interface IOnNewPayment_Payments
     {
-        public global::System.String DebitorIBAN { get; }
-
-        public global::System.String CreditorIBAN { get; }
-
         public global::System.Double Amount { get; }
 
         public global::System.String? CreatedAt { get; }
+
+        public global::System.String CreditorIBAN { get; }
+
+        public global::System.String DebitorIBAN { get; }
+
+        public global::System.String Description { get; }
 
         public global::System.Int32 Id { get; }
     }
@@ -484,12 +490,13 @@ namespace SFR_ReactiveSystems.TransactionService
     /// Represents the operation service of the OnNewPayment GraphQL operation
     /// <code>
     /// subscription OnNewPayment {
-    ///   Payments {
+    ///   Payments(order_by: { createdAt: desc }, limit: 1) {
     ///     __typename
-    ///     debitorIBAN
-    ///     creditorIBAN
     ///     amount
     ///     createdAt
+    ///     creditorIBAN
+    ///     debitorIBAN
+    ///     description
     ///     id
     ///     ... on Payments {
     ///       id
@@ -507,8 +514,8 @@ namespace SFR_ReactiveSystems.TransactionService
 
         public static OnNewPaymentSubscriptionDocument Instance { get; } = new OnNewPaymentSubscriptionDocument();
         public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Subscription;
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x73, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x4f, 0x6e, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x7b, 0x20, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x62, 0x69, 0x74, 0x6f, 0x72, 0x49, 0x42, 0x41, 0x4e, 0x20, 0x63, 0x72, 0x65, 0x64, 0x69, 0x74, 0x6f, 0x72, 0x49, 0x42, 0x41, 0x4e, 0x20, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x20, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x20, 0x69, 0x64, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d};
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "9573a7856384c38a8d711d19c190df0f");
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x73, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x4f, 0x6e, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x7b, 0x20, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x28, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x5f, 0x62, 0x79, 0x3a, 0x20, 0x7b, 0x20, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x3a, 0x20, 0x64, 0x65, 0x73, 0x63, 0x20, 0x7d, 0x2c, 0x20, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x3a, 0x20, 0x31, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x20, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x20, 0x63, 0x72, 0x65, 0x64, 0x69, 0x74, 0x6f, 0x72, 0x49, 0x42, 0x41, 0x4e, 0x20, 0x64, 0x65, 0x62, 0x69, 0x74, 0x6f, 0x72, 0x49, 0x42, 0x41, 0x4e, 0x20, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x69, 0x64, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d};
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "7dbb2412c9d8d642d0ac9647d0e9412e");
         public override global::System.String ToString()
         {
 #if NETSTANDARD2_0
@@ -523,12 +530,13 @@ namespace SFR_ReactiveSystems.TransactionService
     /// Represents the operation service of the OnNewPayment GraphQL operation
     /// <code>
     /// subscription OnNewPayment {
-    ///   Payments {
+    ///   Payments(order_by: { createdAt: desc }, limit: 1) {
     ///     __typename
-    ///     debitorIBAN
-    ///     creditorIBAN
     ///     amount
     ///     createdAt
+    ///     creditorIBAN
+    ///     debitorIBAN
+    ///     description
     ///     id
     ///     ... on Payments {
     ///       id
@@ -573,12 +581,13 @@ namespace SFR_ReactiveSystems.TransactionService
     /// Represents the operation service of the OnNewPayment GraphQL operation
     /// <code>
     /// subscription OnNewPayment {
-    ///   Payments {
+    ///   Payments(order_by: { createdAt: desc }, limit: 1) {
     ///     __typename
-    ///     debitorIBAN
-    ///     creditorIBAN
     ///     amount
     ///     createdAt
+    ///     creditorIBAN
+    ///     debitorIBAN
+    ///     description
     ///     id
     ///     ... on Payments {
     ///       id
@@ -753,27 +762,27 @@ namespace SFR_ReactiveSystems.TransactionService.State
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial class PaymentsEntity
     {
-        public PaymentsEntity(global::System.String debitorIBAN = default !, global::System.String creditorIBAN = default !, global::System.Double amount = default !, global::System.String? createdAt = default !, global::System.Int32 id = default !, global::System.String description = default !)
+        public PaymentsEntity(global::System.Double amount = default !, global::System.String? createdAt = default !, global::System.String creditorIBAN = default !, global::System.String debitorIBAN = default !, global::System.String description = default !, global::System.Int32 id = default !)
         {
-            DebitorIBAN = debitorIBAN;
-            CreditorIBAN = creditorIBAN;
             Amount = amount;
             CreatedAt = createdAt;
-            Id = id;
+            CreditorIBAN = creditorIBAN;
+            DebitorIBAN = debitorIBAN;
             Description = description;
+            Id = id;
         }
-
-        public global::System.String DebitorIBAN { get; }
-
-        public global::System.String CreditorIBAN { get; }
 
         public global::System.Double Amount { get; }
 
         public global::System.String? CreatedAt { get; }
 
-        public global::System.Int32 Id { get; }
+        public global::System.String CreditorIBAN { get; }
+
+        public global::System.String DebitorIBAN { get; }
 
         public global::System.String Description { get; }
+
+        public global::System.Int32 Id { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
@@ -876,7 +885,7 @@ namespace SFR_ReactiveSystems.TransactionService.State
                 snapshot = _entityStore.CurrentSnapshot;
             }
 
-            return new OnNewPayment_Payments_Payments(entity.DebitorIBAN, entity.CreditorIBAN, entity.Amount, entity.CreatedAt, entity.Id);
+            return new OnNewPayment_Payments_Payments(entity.Amount, entity.CreatedAt, entity.CreditorIBAN, entity.DebitorIBAN, entity.Description, entity.Id);
         }
     }
 
@@ -990,18 +999,18 @@ namespace SFR_ReactiveSystems.TransactionService.State
         private readonly global::StrawberryShake.IEntityStore _entityStore;
         private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
         private readonly global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentResult> _resultDataFactory;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Double, global::System.Double> _floatParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _timestamptzParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
         public OnNewPaymentBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
         {
             _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
             _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
             _resultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
             _floatParser = serializerResolver.GetLeafValueParser<global::System.Double, global::System.Double>("Float") ?? throw new global::System.ArgumentException("No serializer for type `Float` found.");
             _timestamptzParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("timestamptz") ?? throw new global::System.ArgumentException("No serializer for type `timestamptz` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
             _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
         }
 
@@ -1089,27 +1098,17 @@ namespace SFR_ReactiveSystems.TransactionService.State
             {
                 if (session.CurrentSnapshot.TryGetEntity(entityId, out global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity? entity))
                 {
-                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), entity.Description));
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
                 }
                 else
                 {
-                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), default !));
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
                 }
 
                 return entityId;
             }
 
             throw new global::System.NotSupportedException();
-        }
-
-        private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            return _stringParser.Parse(obj.Value.GetString()!);
         }
 
         private global::System.Double DeserializeNonNullableDouble(global::System.Text.Json.JsonElement? obj)
@@ -1130,6 +1129,16 @@ namespace SFR_ReactiveSystems.TransactionService.State
             }
 
             return _timestamptzParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
         }
 
         private global::System.Int32 DeserializeNonNullableInt32(global::System.Text.Json.JsonElement? obj)
@@ -1248,11 +1257,11 @@ namespace SFR_ReactiveSystems.TransactionService.State
             {
                 if (session.CurrentSnapshot.TryGetEntity(entityId, out global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity? entity))
                 {
-                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description"))));
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
                 }
                 else
                 {
-                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description"))));
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity(DeserializeNonNullableDouble(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "amount")), DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "createdAt")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "creditorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "debitorIBAN")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "description")), DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
                 }
 
                 return entityId;

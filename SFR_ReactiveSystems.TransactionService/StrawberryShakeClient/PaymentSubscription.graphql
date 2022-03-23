@@ -1,9 +1,10 @@
 ﻿subscription OnNewPayment {
-  Payments {
-    debitorIBAN
-    creditorIBAN
+  Payments(order_by: {createdAt: desc}, limit: 1) {
     amount
     createdAt
+    creditorIBAN
+    debitorIBAN
+    description
     id
   }
 }

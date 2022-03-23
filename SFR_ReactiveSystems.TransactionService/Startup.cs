@@ -77,9 +77,9 @@ namespace SFR_ReactiveSystems.TransactionService
             ArgumentNullException.ThrowIfNull(state);
             CancellationToken cancellationToken = (CancellationToken)state;
 
-            IDisposable session = client.OnNewPayment.Watch().Subscribe(result =>
+            client.OnNewPayment.Watch().Subscribe(result =>
             {
-                logger.LogInformation("Message count: {Count}", result.Data?.Payments.Count.ToString());
+                logger.LogInformation("Message count: {@Message}", result.Data?.Payments.FirstOrDefault());
             },
             result =>
             {
@@ -88,11 +88,9 @@ namespace SFR_ReactiveSystems.TransactionService
             () =>
             {
                 logger.LogInformation("Completed!");
-            });
+            }, cancellationToken);
 
             await new TaskCompletionSource<object>().Task;
-
-            session.Dispose();
         }
     }
 }
