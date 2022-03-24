@@ -1,38 +1,27 @@
-﻿using GraphQL;
-using SFR_ReactiveSystems.TransactionService.Models;
-using System.Reactive.Linq;
+﻿using StrawberryShake;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SFR_ReactiveSystems.TransactionService
 {
-    public class PaymentMonitor : IObserver<GraphQLResponse<PaymentSubscriptionResult>>
+    public class PaymentMonitor : IObserver<IOperationResult<IOnNewPayment_Payments>>
     {
-        public CancellationToken CancellationToken { get; }
-
-        public PaymentMonitor(CancellationToken cancellationToken)
-        {
-            this.CancellationToken = cancellationToken;
-        }
-
         public void OnCompleted()
         {
-            Console.WriteLine("Observer Completed!");
+            throw new NotImplementedException();
         }
 
         public void OnError(Exception error)
         {
-            Console.WriteLine("Observer Error!");
+            throw new NotImplementedException();
         }
 
-        public void OnNext(GraphQLResponse<PaymentSubscriptionResult> paymentResponse)
+        public void OnNext(IOperationResult<IOnNewPayment_Payments> value)
         {
-            Console.WriteLine($"{paymentResponse.Data}");
-        }
-
-        public void Subscribe(IObservable<GraphQLResponse<PaymentSubscriptionResult>> provider)
-        {
-            provider
-                .Delay(new TimeSpan(0,0,2))
-                .Subscribe(this, CancellationToken);
+            throw new NotImplementedException();
         }
     }
 }

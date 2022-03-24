@@ -1,0 +1,5 @@
+﻿mutation PersistTransaction ($transaction: Transactions_insert_input!) {
+  insert_Transactions_one(object: $transaction) {
+    id
+  }
+}

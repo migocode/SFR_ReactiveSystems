@@ -8,10 +8,10 @@ namespace SFR_ReactiveSystems.Frontend.Client.Models
 {
     public record Transaction
     {
-        public string? CreditorIBAN { get; }
-        public string? DebitorIBAN { get; }
-        public decimal Amount { get; }
-        public DateTime? CreatedAt { get; }
-        public int? Id { get; }
+        public string? CreditorIBAN { get; set; }
+        public string? DebitorIBAN { get; set; }
+        public decimal Amount { get; set; }
+        public string? CreatedAt { get; set; }
+        public int? Id { get; set; }
     }
 }

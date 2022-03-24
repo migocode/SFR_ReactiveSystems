@@ -1,0 +1,9 @@
+﻿subscription OnNewTransaction {
+  Transactions(order_by: {createdAt: desc}, limit: 1) {
+    amount
+    createdAt
+    creditorIBAN
+    debitorIBAN
+    id
+  }
+}

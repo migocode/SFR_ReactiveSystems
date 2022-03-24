@@ -8,13 +8,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <GraphQL Remove="StrawberryShakeClient\OnNewPayment.graphql" />
+    <GraphQL Remove="StrawberryShakeClient\OnNewTransaction.graphql" />
+    <GraphQL Remove="StrawberryShakeClient\PersistPayment.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="StrawberryShakeClient\OnNewPayment.graphql" />
+    <None Remove="StrawberryShakeClient\OnNewTransaction.graphql" />
+    <None Remove="StrawberryShakeClient\PersistPayment.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="StrawberryShakeClient\OnNewPayment.graphql">
+      <GraphQL>true</GraphQL>
+    </AdditionalFiles>
+    <AdditionalFiles Include="StrawberryShakeClient\OnNewTransaction.graphql" />
+    <AdditionalFiles Include="StrawberryShakeClient\PersistPayment.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GraphQL" Version="4.7.1" />
     <PackageReference Include="GraphQL.Client" Version="4.0.2" />
     <PackageReference Include="GraphQL.Client.Abstractions" Version="4.0.2" />
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="4.0.2" />
     <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="4.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="12.7.0" />
+    <PackageReference Include="StrawberryShake.Transport.Http" Version="12.7.0" />
+    <PackageReference Include="StrawberryShake.Transport.WebSockets" Version="12.7.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

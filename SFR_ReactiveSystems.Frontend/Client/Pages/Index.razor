@@ -2,7 +2,7 @@
 
 @using SFR_ReactiveSystems.Frontend.Client.GraphQL
 
-@inject GraphQLClient client
+@inject StrawberryShakeClient client
 
 <PageTitle>Payments & Transactions</PageTitle>
 
@@ -49,26 +49,66 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm">
-            <div class="card">
-                <div class="card-body">
-                    <h3>Payments</h3>
-                </div>
-            </div>
-        </div>
     </div>
-
+    <br />
     <!-- New Row in Grid -->
-
+    <br />
     <div class="row gy-5 gx-5">
         <div class="col-sm">
             <div class="card">
                 <div class="card-body">
                     <h3>Transactions</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Id</th>
+                          <th scope="col">Debitor IBAN</th>
+                          <th scope="col">Creditor IBAN</th>
+                          <th scope="col">Created At</th>
+                          <th scope="col">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <Virtualize Items="@transactions">
+                              <tr>
+                                  <th>@context.Id</th>
+                                  <td>@context.DebitorIBAN</td>
+                                  <td>@context.CreditorIBAN</td>
+                                  <td>@context.CreatedAt</td>
+                                  <td>@context.Amount</td>
+                                </tr>
+                          </Virtualize>
+                      </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Payments</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Debitor IBAN</th>
+                          <th scope="col">Creditor IBAN</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <Virtualize Items="@payments">
+                              <tr>
+                                  <td>@context.DebitorIBAN</td>
+                                  <td>@context.CreditorIBAN</td>
+                                  <td>@context.Description</td>
+                                  <td>@context.Amount</td>
+                                </tr>
+                          </Virtualize>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -76,21 +116,99 @@
 
 @code {
     private const string myIban = "1234567890";
-    private string paymentId = "";
+    private string? paymentId = "";
 
     private Payment payment = new();
 
-    protected override void OnParametersSet()
+    private IDisposable? paymentSession;
+    private IDisposable? transactionSession;
+
+    private List<Payment> payments = new();
+    private List<Transaction> transactions = new();
+
+    protected override async Task OnParametersSetAsync()
     {
         payment.DebitorIBAN = myIban;
 
-        base.OnParametersSet();
+        var transactionObservable = client.OnNewTransaction
+            .Watch();
+
+        transactionSession = transactionObservable
+            .Subscribe(result =>
+            {
+                Console.WriteLine("Received");
+                if (result.Data is not null)
+                {
+                    IOnNewTransaction_Transactions transactionResult = result.Data.Transactions[0];
+
+                    Transaction transaction = new()
+                    {
+                        Id = transactionResult.Id,
+                        CreditorIBAN = transactionResult.CreditorIBAN,
+                        DebitorIBAN = transactionResult.DebitorIBAN,
+                        Amount = (decimal)transactionResult.Amount,
+                        CreatedAt = transactionResult.CreatedAt,
+                    };
+
+                    transactions.Add(transaction);
+                    StateHasChanged();
+                }
+            },
+            result =>
+            {
+                Console.WriteLine($"Error: {result.Message}");
+                Console.WriteLine($"Error: {result.StackTrace}");
+                Console.WriteLine($"Inner Esception: {result.InnerException?.Message}");
+            },
+            () =>
+            {
+                Console.WriteLine("Completed!");
+            });
+
+        var paymentObservable = client.OnNewPayment
+            .Watch();
+
+        paymentSession = paymentObservable
+            .Subscribe(result =>
+            {
+                Console.WriteLine("Received");
+                if (result.Data is not null)
+                {
+                    IOnNewPayment_Payments paymentResult = result.Data.Payments[0];
+
+                    Payment payment = new()
+                    {
+                        CreditorIBAN = paymentResult.CreditorIBAN,
+                        DebitorIBAN = paymentResult.DebitorIBAN,
+                        Amount = (decimal)paymentResult.Amount,
+                        Description = paymentResult.Description
+                    };
+
+                    payments.Add(payment);
+                    StateHasChanged();
+                }
+            },
+            result =>
+            {
+                Console.WriteLine($"Error: {result.Message}");
+                Console.WriteLine($"Error: {result.StackTrace}");
+                Console.WriteLine($"Inner Esception: {result.InnerException?.Message}");
+            },
+            () =>
+            {
+                Console.WriteLine("Completed!");
+            });
+
+        await transactionObservable;
     }
 
     private async Task HandleValidSubmit()
     {
-        Console.WriteLine("Submit clicked!");
-        int paymentIdInt = await client.SendAsync(payment);
-        paymentId = paymentIdInt.ToString();
+        Payments_insert_input paymentInput = payment.Adapt<Payments_insert_input>();
+
+        IOperationResult<IPersistPaymentResult> result = await client.PersistPayment
+            .ExecuteAsync(paymentInput);
+
+        paymentId = result.Data?.Insert_Payments_one?.Id.ToString();
     }
 }

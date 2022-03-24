@@ -1,0 +1,5 @@
+﻿mutation PersistPayment ($payment: Payments_insert_input!) { 
+  insert_Payments_one(object: $payment) { 
+    id 
+  } 
+}

@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new ClientServiceProvider(global::Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(serviceCollection));
             });
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => new global::SFR_ReactiveSystems.TransactionService.State.StrawberryShakeClientStoreAccessor(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IEntityStore>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IEntityIdSerializer>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.IOperationRequestFactory>>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.IOperationResultDataFactory>>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp))));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.PersistTransactionMutation>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.OnNewPaymentSubscription>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.GetAllPaymentsQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.StrawberryShakeClient>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
@@ -36,6 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var clientFactory = global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Net.Http.IHttpClientFactory>(parentServices);
                 return new global::StrawberryShake.Transport.Http.HttpConnection(() => clientFactory.CreateClient("StrawberryShakeClient"));
             });
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity, global::SFR_ReactiveSystems.TransactionService.PersistTransaction_Insert_Transactions_one_Transactions>, global::SFR_ReactiveSystems.TransactionService.State.PersistTransaction_Insert_Transactions_one_TransactionsFromTransactionsEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity, global::SFR_ReactiveSystems.TransactionService.OnNewPayment_Payments_Payments>, global::SFR_ReactiveSystems.TransactionService.State.OnNewPayment_Payments_PaymentsFromPaymentsEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.PaymentsEntity, global::SFR_ReactiveSystems.TransactionService.GetAllPayments_Payments_Payments>, global::SFR_ReactiveSystems.TransactionService.State.GetAllPayments_Payments_PaymentsFromPaymentsEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.StringSerializer>(services);
@@ -55,7 +57,15 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.TimeSpanSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.JsonSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer>(services, new global::StrawberryShake.Serialization.StringSerializer("timestamptz"));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::SFR_ReactiveSystems.TransactionService.Transactions_insert_inputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializerResolver>(services, sp => new global::StrawberryShake.Serialization.SerializerResolver(global::System.Linq.Enumerable.Concat(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(parentServices), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(sp))));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>, global::SFR_ReactiveSystems.TransactionService.State.PersistTransactionResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>, global::SFR_ReactiveSystems.TransactionService.State.PersistTransactionBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::SFR_ReactiveSystems.TransactionService.PersistTransactionMutation>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.PersistTransactionMutation>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentResult>, global::SFR_ReactiveSystems.TransactionService.State.OnNewPaymentResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentResult>>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription>(sp));
@@ -102,6 +112,170 @@ namespace Microsoft.Extensions.DependencyInjection
 
 namespace SFR_ReactiveSystems.TransactionService
 {
+    /// <summary>
+    /// mutation root
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionResult : global::System.IEquatable<PersistTransactionResult>, IPersistTransactionResult
+    {
+        public PersistTransactionResult(global::SFR_ReactiveSystems.TransactionService.IPersistTransaction_Insert_Transactions_one? insert_Transactions_One)
+        {
+            Insert_Transactions_one = insert_Transactions_One;
+        }
+
+        /// <summary>
+        /// insert a single row into the table: "Transactions"
+        /// </summary>
+        public global::SFR_ReactiveSystems.TransactionService.IPersistTransaction_Insert_Transactions_one? Insert_Transactions_one { get; }
+
+        public virtual global::System.Boolean Equals(PersistTransactionResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Insert_Transactions_one is null && other.Insert_Transactions_one is null) || Insert_Transactions_one != null && Insert_Transactions_one.Equals(other.Insert_Transactions_one)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((PersistTransactionResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Insert_Transactions_one != null)
+                {
+                    hash ^= 397 * Insert_Transactions_one.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    /// <summary>
+    /// columns and relationships of "Transactions"
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransaction_Insert_Transactions_one_Transactions : global::System.IEquatable<PersistTransaction_Insert_Transactions_one_Transactions>, IPersistTransaction_Insert_Transactions_one_Transactions
+    {
+        public PersistTransaction_Insert_Transactions_one_Transactions(global::System.Int32 id)
+        {
+            Id = id;
+        }
+
+        public global::System.Int32 Id { get; }
+
+        public virtual global::System.Boolean Equals(PersistTransaction_Insert_Transactions_one_Transactions? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Id == other.Id);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((PersistTransaction_Insert_Transactions_one_Transactions)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Id.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    /// <summary>
+    /// mutation root
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial interface IPersistTransactionResult
+    {
+        /// <summary>
+        /// insert a single row into the table: "Transactions"
+        /// </summary>
+        public global::SFR_ReactiveSystems.TransactionService.IPersistTransaction_Insert_Transactions_one? Insert_Transactions_one { get; }
+    }
+
+    /// <summary>
+    /// columns and relationships of "Transactions"
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial interface IPersistTransaction_Insert_Transactions_one
+    {
+        public global::System.Int32 Id { get; }
+    }
+
+    /// <summary>
+    /// columns and relationships of "Transactions"
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial interface IPersistTransaction_Insert_Transactions_one_Transactions : IPersistTransaction_Insert_Transactions_one
+    {
+    }
+
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial class OnNewPaymentResult : global::System.IEquatable<OnNewPaymentResult>, IOnNewPaymentResult
     {
@@ -486,6 +660,393 @@ namespace SFR_ReactiveSystems.TransactionService
     {
     }
 
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class Transactions_insert_inputInputValueFormatter : global::StrawberryShake.Serialization.IInputObjectFormatter
+    {
+        private global::StrawberryShake.Serialization.IInputValueFormatter _floatFormatter = default !;
+        private global::StrawberryShake.Serialization.IInputValueFormatter _timestamptzFormatter = default !;
+        private global::StrawberryShake.Serialization.IInputValueFormatter _stringFormatter = default !;
+        private global::StrawberryShake.Serialization.IInputValueFormatter _intFormatter = default !;
+        public global::System.String TypeName => "Transactions_insert_input";
+        public void Initialize(global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _floatFormatter = serializerResolver.GetInputValueFormatter("Float");
+            _timestamptzFormatter = serializerResolver.GetInputValueFormatter("timestamptz");
+            _stringFormatter = serializerResolver.GetInputValueFormatter("String");
+            _intFormatter = serializerResolver.GetInputValueFormatter("Int");
+        }
+
+        public global::System.Object? Format(global::System.Object? runtimeValue)
+        {
+            if (runtimeValue is null)
+            {
+                return null;
+            }
+
+            var input = runtimeValue as global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input;
+            var inputInfo = runtimeValue as global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo;
+            if (input is null || inputInfo is null)
+            {
+                throw new global::System.ArgumentException(nameof(runtimeValue));
+            }
+
+            var fields = new global::System.Collections.Generic.List<global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>>();
+            if (inputInfo.IsAmountSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("amount", FormatAmount(input.Amount)));
+            }
+
+            if (inputInfo.IsCreatedAtSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("createdAt", FormatCreatedAt(input.CreatedAt)));
+            }
+
+            if (inputInfo.IsCreditorIBANSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("creditorIBAN", FormatCreditorIBAN(input.CreditorIBAN)));
+            }
+
+            if (inputInfo.IsDebitorIBANSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("debitorIBAN", FormatDebitorIBAN(input.DebitorIBAN)));
+            }
+
+            if (inputInfo.IsIdSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("id", FormatId(input.Id)));
+            }
+
+            return fields;
+        }
+
+        private global::System.Object? FormatAmount(global::System.Double? input)
+        {
+            if (input is null)
+            {
+                return input;
+            }
+            else
+            {
+                return _floatFormatter.Format(input);
+            }
+        }
+
+        private global::System.Object? FormatCreatedAt(global::System.String? input)
+        {
+            if (input is null)
+            {
+                return input;
+            }
+            else
+            {
+                return _timestamptzFormatter.Format(input);
+            }
+        }
+
+        private global::System.Object? FormatCreditorIBAN(global::System.String? input)
+        {
+            if (input is null)
+            {
+                return input;
+            }
+            else
+            {
+                return _stringFormatter.Format(input);
+            }
+        }
+
+        private global::System.Object? FormatDebitorIBAN(global::System.String? input)
+        {
+            if (input is null)
+            {
+                return input;
+            }
+            else
+            {
+                return _stringFormatter.Format(input);
+            }
+        }
+
+        private global::System.Object? FormatId(global::System.Int32? input)
+        {
+            if (input is null)
+            {
+                return input;
+            }
+            else
+            {
+                return _intFormatter.Format(input);
+            }
+        }
+    }
+
+    ///<summary>input type for inserting data into table "Transactions"</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class Transactions_insert_input : global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo, global::System.IEquatable<Transactions_insert_input>
+    {
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((Transactions_insert_input)obj);
+        }
+
+        public virtual global::System.Boolean Equals(Transactions_insert_input? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Amount == other.Amount) && ((CreatedAt is null && other.CreatedAt is null) || CreatedAt != null && CreatedAt.Equals(other.CreatedAt)) && ((CreditorIBAN is null && other.CreditorIBAN is null) || CreditorIBAN != null && CreditorIBAN.Equals(other.CreditorIBAN)) && ((DebitorIBAN is null && other.DebitorIBAN is null) || DebitorIBAN != null && DebitorIBAN.Equals(other.DebitorIBAN)) && Id == other.Id;
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Amount != null)
+                {
+                    hash ^= 397 * Amount.GetHashCode();
+                }
+
+                if (CreatedAt != null)
+                {
+                    hash ^= 397 * CreatedAt.GetHashCode();
+                }
+
+                if (CreditorIBAN != null)
+                {
+                    hash ^= 397 * CreditorIBAN.GetHashCode();
+                }
+
+                if (DebitorIBAN != null)
+                {
+                    hash ^= 397 * DebitorIBAN.GetHashCode();
+                }
+
+                if (Id != null)
+                {
+                    hash ^= 397 * Id.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+
+        private global::System.Double? _value_amount;
+        private global::System.Boolean _set_amount;
+        private global::System.String? _value_createdAt;
+        private global::System.Boolean _set_createdAt;
+        private global::System.String? _value_creditorIBAN;
+        private global::System.Boolean _set_creditorIBAN;
+        private global::System.String? _value_debitorIBAN;
+        private global::System.Boolean _set_debitorIBAN;
+        private global::System.Int32? _value_id;
+        private global::System.Boolean _set_id;
+        public global::System.Double? Amount
+        {
+            get => _value_amount;
+            set
+            {
+                _set_amount = true;
+                _value_amount = value;
+            }
+        }
+
+        global::System.Boolean global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo.IsAmountSet => _set_amount;
+        public global::System.String? CreatedAt
+        {
+            get => _value_createdAt;
+            set
+            {
+                _set_createdAt = true;
+                _value_createdAt = value;
+            }
+        }
+
+        global::System.Boolean global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo.IsCreatedAtSet => _set_createdAt;
+        public global::System.String? CreditorIBAN
+        {
+            get => _value_creditorIBAN;
+            set
+            {
+                _set_creditorIBAN = true;
+                _value_creditorIBAN = value;
+            }
+        }
+
+        global::System.Boolean global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo.IsCreditorIBANSet => _set_creditorIBAN;
+        public global::System.String? DebitorIBAN
+        {
+            get => _value_debitorIBAN;
+            set
+            {
+                _set_debitorIBAN = true;
+                _value_debitorIBAN = value;
+            }
+        }
+
+        global::System.Boolean global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo.IsDebitorIBANSet => _set_debitorIBAN;
+        public global::System.Int32? Id
+        {
+            get => _value_id;
+            set
+            {
+                _set_id = true;
+                _value_id = value;
+            }
+        }
+
+        global::System.Boolean global::SFR_ReactiveSystems.TransactionService.State.ITransactions_insert_inputInfo.IsIdSet => _set_id;
+    }
+
+    /// <summary>
+    /// Represents the operation service of the PersistTransaction GraphQL operation
+    /// <code>
+    /// mutation PersistTransaction($transaction: Transactions_insert_input!) {
+    ///   insert_Transactions_one(object: $transaction) {
+    ///     __typename
+    ///     id
+    ///     ... on Transactions {
+    ///       id
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionMutationDocument : global::StrawberryShake.IDocument
+    {
+        private PersistTransactionMutationDocument()
+        {
+        }
+
+        public static PersistTransactionMutationDocument Instance { get; } = new PersistTransactionMutationDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Mutation;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x6d, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x50, 0x65, 0x72, 0x73, 0x69, 0x73, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x28, 0x24, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x20, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x5f, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x5f, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x6f, 0x6e, 0x65, 0x28, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x3a, 0x20, 0x24, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x69, 0x64, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d};
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "6753d816506288b0b43d44d8b0338975");
+        public override global::System.String ToString()
+        {
+#if NETSTANDARD2_0
+        return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the PersistTransaction GraphQL operation
+    /// <code>
+    /// mutation PersistTransaction($transaction: Transactions_insert_input!) {
+    ///   insert_Transactions_one(object: $transaction) {
+    ///     __typename
+    ///     id
+    ///     ... on Transactions {
+    ///       id
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionMutation : global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IPersistTransactionResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _transactions_Insert_InputFormatter;
+        public PersistTransactionMutation(global::StrawberryShake.IOperationExecutor<IPersistTransactionResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _transactions_Insert_InputFormatter = serializerResolver.GetInputValueFormatter("Transactions_insert_input");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IPersistTransactionResult);
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IPersistTransactionResult>> ExecuteAsync(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input transaction, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(transaction);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IPersistTransactionResult>> Watch(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input transaction, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(transaction);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input transaction)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("transaction", FormatTransaction(transaction));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: PersistTransactionMutationDocument.Instance.Hash.Value, name: "PersistTransaction", document: PersistTransactionMutationDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatTransaction(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input value)
+        {
+            if (value is null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _transactions_Insert_InputFormatter.Format(value);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the PersistTransaction GraphQL operation
+    /// <code>
+    /// mutation PersistTransaction($transaction: Transactions_insert_input!) {
+    ///   insert_Transactions_one(object: $transaction) {
+    ///     __typename
+    ///     id
+    ///     ... on Transactions {
+    ///       id
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial interface IPersistTransactionMutation : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IPersistTransactionResult>> ExecuteAsync(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input transaction, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IPersistTransactionResult>> Watch(global::SFR_ReactiveSystems.TransactionService.Transactions_insert_input transaction, global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
     /// <summary>
     /// Represents the operation service of the OnNewPayment GraphQL operation
     /// <code>
@@ -731,15 +1292,18 @@ namespace SFR_ReactiveSystems.TransactionService
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial class StrawberryShakeClient : global::SFR_ReactiveSystems.TransactionService.IStrawberryShakeClient
     {
+        private readonly global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation _persistTransaction;
         private readonly global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription _onNewPayment;
         private readonly global::SFR_ReactiveSystems.TransactionService.IGetAllPaymentsQuery _getAllPayments;
-        public StrawberryShakeClient(global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription onNewPayment, global::SFR_ReactiveSystems.TransactionService.IGetAllPaymentsQuery getAllPayments)
+        public StrawberryShakeClient(global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation persistTransaction, global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription onNewPayment, global::SFR_ReactiveSystems.TransactionService.IGetAllPaymentsQuery getAllPayments)
         {
+            _persistTransaction = persistTransaction ?? throw new global::System.ArgumentNullException(nameof(persistTransaction));
             _onNewPayment = onNewPayment ?? throw new global::System.ArgumentNullException(nameof(onNewPayment));
             _getAllPayments = getAllPayments ?? throw new global::System.ArgumentNullException(nameof(getAllPayments));
         }
 
         public static global::System.String ClientName => "StrawberryShakeClient";
+        public global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation PersistTransaction => _persistTransaction;
         public global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription OnNewPayment => _onNewPayment;
         public global::SFR_ReactiveSystems.TransactionService.IGetAllPaymentsQuery GetAllPayments => _getAllPayments;
     }
@@ -750,6 +1314,8 @@ namespace SFR_ReactiveSystems.TransactionService
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial interface IStrawberryShakeClient
     {
+        global::SFR_ReactiveSystems.TransactionService.IPersistTransactionMutation PersistTransaction { get; }
+
         global::SFR_ReactiveSystems.TransactionService.IOnNewPaymentSubscription OnNewPayment { get; }
 
         global::SFR_ReactiveSystems.TransactionService.IGetAllPaymentsQuery GetAllPayments { get; }
@@ -758,6 +1324,18 @@ namespace SFR_ReactiveSystems.TransactionService
 
 namespace SFR_ReactiveSystems.TransactionService.State
 {
+    ///<summary>columns and relationships of "Transactions"</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class TransactionsEntity
+    {
+        public TransactionsEntity(global::System.Int32 id = default !)
+        {
+            Id = id;
+        }
+
+        public global::System.Int32 Id { get; }
+    }
+
     ///<summary>columns and relationships of "Payments"</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
     public partial class PaymentsEntity
@@ -783,6 +1361,99 @@ namespace SFR_ReactiveSystems.TransactionService.State
         public global::System.String Description { get; }
 
         public global::System.Int32 Id { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.PersistTransactionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity, PersistTransaction_Insert_Transactions_one_Transactions> _persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper;
+        public PersistTransactionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity, PersistTransaction_Insert_Transactions_one_Transactions> persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper = persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper ?? throw new global::System.ArgumentNullException(nameof(persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult);
+        public PersistTransactionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is PersistTransactionResultInfo info)
+            {
+                return new PersistTransactionResult(MapIPersistTransaction_Insert_Transactions_one(info.Insert_Transactions_one, snapshot));
+            }
+
+            throw new global::System.ArgumentException("PersistTransactionResultInfo expected.");
+        }
+
+        private global::SFR_ReactiveSystems.TransactionService.IPersistTransaction_Insert_Transactions_one? MapIPersistTransaction_Insert_Transactions_one(global::StrawberryShake.EntityId? entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (entityId is null)
+            {
+                return null;
+            }
+
+            if (entityId.Value.Name.Equals("Transactions", global::System.StringComparison.Ordinal))
+            {
+                return _persistTransaction_Insert_Transactions_One_TransactionsFromTransactionsEntityMapper.Map(snapshot.GetEntity<global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity>(entityId.Value) ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public PersistTransactionResultInfo(global::StrawberryShake.EntityId? insert_Transactions_One, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            Insert_Transactions_one = insert_Transactions_One;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        /// <summary>
+        /// insert a single row into the table: "Transactions"
+        /// </summary>
+        public global::StrawberryShake.EntityId? Insert_Transactions_one { get; }
+
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new PersistTransactionResultInfo(Insert_Transactions_one, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransaction_Insert_Transactions_one_TransactionsFromTransactionsEntityMapper : global::StrawberryShake.IEntityMapper<global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity, PersistTransaction_Insert_Transactions_one_Transactions>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public PersistTransaction_Insert_Transactions_one_TransactionsFromTransactionsEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public PersistTransaction_Insert_Transactions_one_Transactions Map(global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new PersistTransaction_Insert_Transactions_one_Transactions(entity.Id);
+        }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
@@ -990,6 +1661,133 @@ namespace SFR_ReactiveSystems.TransactionService.State
             }
 
             return new GetAllPayments_Payments_Payments(entity.DebitorIBAN, entity.CreditorIBAN, entity.Description, entity.Amount, entity.CreatedAt, entity.Id);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    internal interface ITransactions_insert_inputInfo
+    {
+        global::System.Boolean IsAmountSet { get; }
+
+        global::System.Boolean IsCreatedAtSet { get; }
+
+        global::System.Boolean IsCreditorIBANSet { get; }
+
+        global::System.Boolean IsDebitorIBANSet { get; }
+
+        global::System.Boolean IsIdSet { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "12.7.0.0")]
+    public partial class PersistTransactionBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult> _resultDataFactory;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Double, global::System.Double> _floatParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _timestamptzParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        public PersistTransactionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::SFR_ReactiveSystems.TransactionService.IPersistTransactionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            _resultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _floatParser = serializerResolver.GetLeafValueParser<global::System.Double, global::System.Double>("Float") ?? throw new global::System.ArgumentException("No serializer for type `Float` found.");
+            _timestamptzParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("timestamptz") ?? throw new global::System.ArgumentException("No serializer for type `timestamptz` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+        }
+
+        public global::StrawberryShake.IOperationResult<IPersistTransactionResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
+        {
+            (IPersistTransactionResult Result, PersistTransactionResultInfo Info)? data = null;
+            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.IClientError>? errors = null;
+            if (response.Exception is null)
+            {
+                try
+                {
+                    if (response.Body != null)
+                    {
+                        if (response.Body.RootElement.TryGetProperty("data", out global::System.Text.Json.JsonElement dataElement) && dataElement.ValueKind == global::System.Text.Json.JsonValueKind.Object)
+                        {
+                            data = BuildData(dataElement);
+                        }
+
+                        if (response.Body.RootElement.TryGetProperty("errors", out global::System.Text.Json.JsonElement errorsElement))
+                        {
+                            errors = global::StrawberryShake.Json.JsonErrorParser.ParseErrors(errorsElement);
+                        }
+                    }
+                }
+                catch (global::System.Exception ex)
+                {
+                    errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(ex.Message, exception: ex, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
+                }
+            }
+            else
+            {
+                if (response.Body != null && response.Body.RootElement.TryGetProperty("errors", out global::System.Text.Json.JsonElement errorsElement))
+                {
+                    errors = global::StrawberryShake.Json.JsonErrorParser.ParseErrors(errorsElement);
+                }
+                else
+                {
+                    errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(response.Exception.Message, exception: response.Exception, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
+                }
+            }
+
+            return new global::StrawberryShake.OperationResult<IPersistTransactionResult>(data?.Result, data?.Info, _resultDataFactory, errors);
+        }
+
+        private (IPersistTransactionResult, PersistTransactionResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            global::StrawberryShake.EntityId? insert_Transactions_OneId = default !;
+            _entityStore.Update(session =>
+            {
+                insert_Transactions_OneId = UpdateIPersistTransaction_Insert_Transactions_oneEntity(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "insert_Transactions_one"), entityIds);
+                snapshot = session.CurrentSnapshot;
+            });
+            var resultInfo = new PersistTransactionResultInfo(insert_Transactions_OneId, entityIds, snapshot.Version);
+            return (_resultDataFactory.Create(resultInfo), resultInfo);
+        }
+
+        private global::StrawberryShake.EntityId? UpdateIPersistTransaction_Insert_Transactions_oneEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+            if (entityId.Name.Equals("Transactions", global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(entityId, out global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity? entity))
+                {
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity(DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
+                }
+                else
+                {
+                    session.SetEntity(entityId, new global::SFR_ReactiveSystems.TransactionService.State.TransactionsEntity(DeserializeNonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id"))));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Int32 DeserializeNonNullableInt32(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _intParser.Parse(obj.Value.GetInt32()!);
         }
     }
 
@@ -1321,6 +2119,7 @@ namespace SFR_ReactiveSystems.TransactionService.State
             global::System.String __typename = obj.GetProperty("__typename").GetString()!;
             return __typename switch
             {
+                "Transactions" => ParseTransactionsEntityId(obj, __typename),
                 "Payments" => ParsePaymentsEntityId(obj, __typename),
                 _ => throw new global::System.NotSupportedException()};
         }
@@ -1329,8 +2128,26 @@ namespace SFR_ReactiveSystems.TransactionService.State
         {
             return entityId.Name switch
             {
+                "Transactions" => FormatTransactionsEntityId(entityId),
                 "Payments" => FormatPaymentsEntityId(entityId),
                 _ => throw new global::System.NotSupportedException()};
+        }
+
+        private global::StrawberryShake.EntityId ParseTransactionsEntityId(global::System.Text.Json.JsonElement obj, global::System.String type)
+        {
+            return new global::StrawberryShake.EntityId(type, obj.GetProperty("id").GetInt32()!);
+        }
+
+        private global::System.String FormatTransactionsEntityId(global::StrawberryShake.EntityId entityId)
+        {
+            using var writer = new global::StrawberryShake.Internal.ArrayWriter();
+            using var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(writer, _options);
+            jsonWriter.WriteStartObject();
+            jsonWriter.WriteString("__typename", entityId.Name);
+            jsonWriter.WriteNumber("id", (global::System.Int32)entityId.Value);
+            jsonWriter.WriteEndObject();
+            jsonWriter.Flush();
+            return global::System.Text.Encoding.UTF8.GetString(writer.GetInternalBuffer(), 0, writer.Length);
         }
 
         private global::StrawberryShake.EntityId ParsePaymentsEntityId(global::System.Text.Json.JsonElement obj, global::System.String type)

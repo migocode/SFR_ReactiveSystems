@@ -19,23 +19,25 @@
   <ItemGroup>
     <GraphQL Remove="GetAllPaymentsQuery.graphql" />
     <GraphQL Remove="GraphQLQueries\GetAllPaymentsQuery.graphql" />
-    <GraphQL Remove="StrawberryShakeClient\PaymentSubscription.graphql" />
+    <GraphQL Remove="StrawberryShakeClient\OnNewPayment.graphql" />
+    <GraphQL Remove="StrawberryShakeClient\PersistTransaction.graphql" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="StrawberryShakeClient\PaymentSubscription.graphql" />
+    <None Remove="StrawberryShakeClient\OnNewPayment.graphql" />
+    <None Remove="StrawberryShakeClient\PersistTransaction.graphql" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="StrawberryShakeClient\PaymentSubscription.graphql">
+    <AdditionalFiles Include="StrawberryShakeClient\PersistTransaction.graphql">
+      <GraphQL>true</GraphQL>
+    </AdditionalFiles>
+    <AdditionalFiles Include="StrawberryShakeClient\OnNewPayment.graphql">
       <GraphQL>true</GraphQL>
     </AdditionalFiles>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL.Client" Version="4.0.2" />
-    <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="4.0.2" />
-    <PackageReference Include="GraphQL.Primitives" Version="4.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
